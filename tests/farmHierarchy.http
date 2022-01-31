@@ -1,0 +1,702 @@
+
+@login_url=https://login.microsoftonline.com/{{tenant_id}}/oauth2/token
+@farmbeatsResource=https://{{resourceName}}.farmbeats.azure.net
+
+# @name get_token1
+POST {{login_url}}
+Content-Type: "application/x-www-form-urlencoded"
+
+grant_type={{grant_type}}
+&client_id={{client_id}}
+&resource={{resource}}
+&client_secret={{application_secret}}
+
+###
+
+@token = {{get_token1.response.body.$.access_token}}
+@token_type = {{get_token1.response.body.$.token_type}}
+
+#@farmerId=farmerjohn
+##@farmid=somefarm
+#@jobId=12
+#@fieldId=field1
+#@boundaryId=boundary1
+#@seasonId=spring
+#@cropId=sweatcorn
+#@seasonalFieldId=seasonalField1
+#@managementZoneId=managementZone1
+#@prescriptionMapId=prescriptionMap1
+
+# @farmerId=farmerjohn1
+# @farmid=somefarm1
+# @jobId=121
+# @fieldId=field11
+# @boundaryId=boundary11
+# @seasonId=spring1
+# @cropId=sweatcorn1
+# @seasonalFieldId=seasonalField11
+# @managementZoneId=managementZone11
+# @prescriptionMapId=prescriptionMap11
+
+@farmerId=jamespo555
+@farmid=somefarm12
+@jobId=1212
+@fieldId=field12
+@boundaryId=boundary12
+@seasonId=spring12
+@cropId=sweatcorn12
+@seasonalFieldId=seasonalField12
+@managementZoneId=managementZone12
+@prescriptionMapId=prescriptionMap12
+
+# @farmerId=farmerjohn12
+# @farmid=somefarm12
+# @jobId=1212
+# @fieldId=field112
+# @boundaryId=boundary112
+# @seasonId=spring12
+# @cropId=sweatcorn12
+# @seasonalFieldId=seasonalField112
+# @managementZoneId=managementZone112
+# @prescriptionMapId=prescriptionMap112
+
+# @farmerId=farmerjohn1
+# @farmid=somefarm1
+# @jobId=11213357987654876576565
+# @fieldId=field1
+# @boundaryId=boundary1
+# @seasonId=spring1
+# @cropId=sweatcorn1
+# @seasonalFieldId=seasonalField1
+# @managementZoneId=managementZone1
+# @prescriptionMapId=prescriptionMap1
+
+
+
+###
+
+# @name printf_values
+GET {{debug_url}}
+Content-Type: application/json
+
+{
+    "token_type": {{token_type}},
+    "farmid": {{farmid}},
+    "fieldId": {{fieldId}},
+    "resourceName": {{resourceName}},
+    "apiVersion": {{apiVersion}},
+    "farmbeatsResource": {{farmbeatsResource}},
+    "apiVersion": {{apiVersion}},
+    "farmerId": {{farmerId}},
+    "managementZoneId": {{managementZoneId}}
+    "token": {{token}}
+}
+
+###
+
+# @name create_update_farmer
+PATCH {{farmbeatsResource}}/farmers/{{farmerId}}/
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}}
+
+{
+    "name": "John Smith",
+    "description": "Some description",
+    "status": "Active",
+    "properties": {
+        "Premium_Member":"Yes",
+        "RetailerId":"Retailer123"
+    }
+}
+
+###
+
+# @name get_farmer
+GET {{farmbeatsResource}}/farmers/{{farmerId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# @name get_farmers
+GET {{farmbeatsResource}}/farmers
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# @name delete_farmer
+DELETE {{farmbeatsResource}}/farmers/{{farmerId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# @name get_all_farms
+GET {{farmbeatsResource}}/farms
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+@farmsnextlink1 = {{get_all_farms.response.body.$.nextLink}}
+
+###
+
+# @name farms_nextlink1
+GET {{farmsnextlink1}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+@farmsnextlink2 = {{farms_nextlink1.response.body.$.nextLink}}
+
+###
+
+# @name farms_nextlink2
+GET {{farmsnextlink2}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+
+@farmsnextlink3 = {{farms_nextlink2.response.body.$.nextLink}}
+
+###
+
+# @name farms_nextlink3
+GET {{farmsnextlink3}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+
+
+###
+# @name get_farms
+GET {{farmbeatsResource}}/farmers/{{farmerId}}/farms
+?api-version={{apiVersion}}
+&ids={{farmid}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+# @name create_update_farm
+PATCH {{farmbeatsResource}}/farmers/{{farmerId}}/farms/{{farmid}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}}
+
+{
+    "name": "{{farmid}}",
+    "description": "a dummy description"
+}
+
+###
+
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/farms/5.%20delete_farm.md
+
+# @name delete_farm
+DELETE {{farmbeatsResource}}/farmers/{{farmerId}}/farms/{{farmid}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+### 
+
+# @name create_cascade_delete_job_farmer
+# PUT {{farmbeatsResource}}/farmers/cascade-delete/{{jobId}}
+PUT {{farmbeatsResource}}/farmers/cascade-delete/job45564545
+?api-version={{apiVersion}}
+<<<<<<< HEAD
+&farmerId=Jamespo1
+=======
+&farmerId=FARMER123
+>>>>>>> 40842f512580b301b07328438cdcf7f6b6b6e6f6
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+
+###
+
+# @name get_cascade_delete_job_farmer
+# GET {{farmbeatsResource}}/farmers/cascade-delete/{{jobId}}
+GET {{farmbeatsResource}}/farmers/cascade-delete/job45564545
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+@fieldId=fieldjames111
+
+# @name create_update_field
+PATCH {{farmbeatsResource}}/farmers/{{farmerId}}/fields/{{fieldId}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}}
+
+{
+    "farmId": "{{farmid}}",
+    "name": "Bob's corn field in Snohomish",
+    "description": "Some description ",
+    "status": "Active",
+    "properties": {
+        "prop1": "my first prop"
+    }
+}
+
+###
+
+# Retrieve all fields details belonging to a farmer for a given search criteria.
+#@name get_fields
+GET {{farmbeatsResource}}/fields
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}} 
+
+###
+
+
+# Create or update a boundary
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/boundaries/1.%20create_update_boundary.md
+
+# @name create_update_boundary
+PATCH {{farmbeatsResource}}/farmers/{{farmerId}}/boundaries/{{boundaryId}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}}
+
+{
+    "isPrimary": true,
+    "parentId": "{{fieldId}}",
+    "parentType": "Field",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    10.98958969116211,
+                    45.284911882713146
+                ],
+                [
+                    11.004695892333984,
+                    45.284911882713146
+                ],
+                [
+                    11.004695892333984,
+                    45.29360722000945
+                ],
+                [
+                    10.98958969116211,
+                    45.29360722000945
+                ],
+                [
+                    10.98958969116211,
+                    45.284911882713146
+                ]
+            ]
+        ]
+    },
+    "name": "test boundary",
+    "description": "some description",
+    "status": "Active",
+    "properties": 
+    {
+        "Prop1": "my prop 1",
+        "Prop2": "my prop 2"
+    }
+}
+
+###
+
+# Retrieve boundary details for a given farmer.
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/boundaries/2.%20get_boundary.md
+
+# @name get_boundary
+GET {{farmbeatsResource}}/farmers/{{farmerId}}/boundaries/{{boundaryId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Retrieve all boundary details belonging to a farmer for a given search criteria.
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/boundaries/3.%20get_boundaries.md
+
+#@name get_boundaries
+GET {{farmbeatsResource}}/farmers/{{farmerId}}/boundaries
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}} 
+
+###
+
+# Retrieve boundary details given search criteria
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/boundaries/4.%20get_all_boundaries.md
+
+# @name get_all_boundaries
+GET {{farmbeatsResource}}/boundaries
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}} 
+
+###
+
+# Delete a boundary
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/boundaries/5.%20delete_boundary.md
+
+DELETE {{farmbeatsResource}}/farmers/{{farmerId}}/boundaries/{{boundaryId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Search boundaries given an intercection with a given geoJSON
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/boundaries/7.%20search_boundaries.md
+
+POST {{farmbeatsResource}}/farmers/{{farmerId}}/boundaries
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}} 
+
+{
+    "parentType": "field",
+    "intersectsWithGeometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    10.98958969116211,
+                    45.284911882713146
+                ],
+                [
+                    11.004695892333984,
+                    45.284911882713146
+                ],
+                [
+                    11.004695892333984,
+                    45.29360722000945
+                ],
+                [
+                    10.98958969116211,
+                    45.29360722000945
+                ],
+                [
+                    10.98958969116211,
+                    45.284911882713146
+                ]
+            ]
+        ]
+    }
+}
+
+###
+
+# Create a season
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/seasons/1.%20create_update_season.md
+
+# @name create_update_season
+PATCH {{farmbeatsResource}}/seasons/{{seasonId}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}} 
+
+{
+    "startDateTime": "{{$localDatetime rfc1123}}",
+    "endDateTime": "01-01-2022",
+    "name": "Test season",
+    "status": "Active"
+}
+
+###
+
+# Get season
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/seasons/2.%20get_season.md
+
+# @name get_season
+GET {{farmbeatsResource}}/seasons/{{seasonId}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}} 
+
+### 
+
+###
+
+# Get seasons
+
+# @name get_seasons
+GET {{farmbeatsResource}}/seasons
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}} 
+
+### 
+
+# Delate a given season if it is not being referenced by any seasonal field
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/seasons/4.%20delete_season.md
+
+# @name delete_season
+DELETE {{farmbeatsResource}}/seasons/{{seasonId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}} 
+
+###
+
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/crops/1.%20create_update_crop.md
+# Creates or updates a crop
+
+# @name create_update_crop
+PATCH {{farmbeatsResource}}/crops/{{cropId}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}} 
+
+{
+    "name": "{{cropId}}",
+    "description": "nothing but the finest corn from Bob's Corn in Snohomish, WA!",
+    "status": "Active",
+    "properties": {
+        "when": "September is the time to pick them",
+        "why": "Because its so much fun to bring the kids along."
+    }
+}
+
+###
+
+# Retrieve crop details for a given search criteria
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/crops/3.%20get_crops.md
+
+# @name get_crops
+GET {{farmbeatsResource}}/crops/
+?api-version={{apiVersion}}
+# &names={{cropId}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Retrieve details for a given crop.
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/crops/2.%20get_crop.md
+
+# @name get_crop
+GET {{farmbeatsResource}}/crops/{{cropId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Delete a given crop if it is not being referenced by any seasonal field or crop variety
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/crops/4.%20delete_crop.md
+
+# @name delete_crop
+DELETE {{farmbeatsResource}}/crops/{{cropId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Retrieve crop varieties for a given search criteria
+
+# @name get_crop_varieties
+GET {{farmbeatsResource}}/crop-varieties/
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Create or update a seasonal field
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/seasonal%20fields/1.%20create_update_seasonal_field.md
+
+# @name create_update_seasonal_field
+PATCH {{farmbeatsResource}}/farmers/{{farmerId}}/seasonal-fields/{{seasonalFieldId}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}}
+
+{
+    "farmid": "{{farmid}}",
+    "name": "mine",
+    "description": "my very own little plot of land to grow my cucumbers and tomatoes",
+    "seasonId": "{{seasonId}}",
+    "cropId": "{{cropId}}"
+}
+
+###
+
+# Get seasonal field
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/seasonal%20fields/2.%20get_seasonal_field.md
+
+# @name get_seasonal_field
+GET {{farmbeatsResource}}/farmers/{{farmerId}}/seasonal-fields/{{seasonalFieldId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Get seasonal fields
+
+# @name get_seasonal_fields
+GET {{farmbeatsResource}}/seasonal-fields
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Delete a seaonal field.
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/seasonal%20fields/5.%20delete_seasonal_field.md
+
+# @name delete_seasonal_field
+DELETE {{farmbeatsResource}}/farmers/{{farmerId}}/seasonal-fields/{{seasonalFieldId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Create or update management zone
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/management%20zones/1.%20create_update_management_zones.md
+
+# @name create_update_management_zone
+PATCH {{farmbeatsResource}}/farmers/{{farmerId}}/management-zones/{{managementZoneId}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}}
+
+{
+    "type": "some type of managmement zone",
+    "source": "Government",
+    "description": "some simple management zone"
+}
+
+###
+
+# Get management zone by id
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/management%20zones/2.%20get_management_zone.md
+
+# @name get_managementZone
+GET {{farmbeatsResource}}/farmers/{{farmerId}}/management-zones/{{managementZoneId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Get managements zones by farmer ID
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/management%20zones/3.%20get_management_zones.md
+
+# @name get_managementZones
+GET {{farmbeatsResource}}/farmers/{{farmerId}}/management-zones
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# Delete a managment zone
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/management%20zones/5.%20delete_management_zones.md
+
+# @name delete_management_zone
+DELETE {{farmbeatsResource}}/farmers/{{farmerId}}/management-zones/{{managementZoneId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+# Create or Update prescription maps
+
+# @name create_update_prescription_map
+PATCH 
+
+###
+
+# API to create or update a prescription object. Prescriptions are created as child to a prescription map. Therefore, create a prescription map before creating a prescription within it.
+# https://github.com/MicrosoftDocs/Azure-FarmBeats/blob/main/documentation/farm%20hierarchy/REST%20APIs/2021-07-31-preview/prescriptions/1.%20create_update_prescriptions.md
+# @name create_update_prescriptions
+PATCH {{farmbeatsResource}}/farmers/{{farmerId}}/prescription-maps/{{prescriptionMapId}}
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}}
+
+{
+    "type": "prescriptionMap",
+    "source": "dummy source",
+    "seasonId": "{{seasonId}}",
+    "cropId": "{{cropId}}",
+    "fieldId": "{{fieldId}}",
+    "name": "{{prescriptionMapId}}",
+    "status": "Active",
+    "properties": {
+        "prop1": "something..."
+    }
+}
+
+###
+
+# @name get_prescriptionMap
+GET {{farmbeatsResource}}/farmers/{{farmerId}}/prescription-maps/{{prescriptionMapId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+###
+
+# @name delete_prescriptionMap
+DELETE {{farmbeatsResource}}/farmers/{{farmerId}}/prescription-maps/{{prescriptionMapId}}
+?api-version={{apiVersion}}
+Content-Type: application/json
+Authorization: {{token_type}} {{token}}
+
+
+###
+
+# Get harvest data
+
+# @name get_harvest_data
+GET {{farmbeatsResource}}/harvest-data
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}} 
+
+### 
+
+
+###
+
+# Get scenes
+
+# @name get_scenes
+GET {{farmbeatsResource}}/scenes
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}} 
+
+### 
+
+###
+
+# Get weather
+
+# @name get_weather
+GET {{farmbeatsResource}}/weather
+?api-version={{apiVersion}}
+Content-Type: application/merge-patch+json
+Authorization: {{token_type}} {{token}} 
+
+### 

@@ -1,0 +1,38 @@
+{
+    "rest-client.environmentVariables": {
+        "$shared": {
+            "grant_type": "client_credentials",
+            "debug_url": "http://postman-echo.com/get",
+            "apiVersion": "2021-07-31-preview"
+            // "apiVersion": "2021-03-31-preview"
+        },
+        "jamesfb": {
+            "client_id": "b43a3882-1d70-4230-8b49-18e8ffa6d751",
+            "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "application_secret": "yQ27Q~MQKaL1kqt3eCxrzXHQ_Y3IkXn.bnbxt",
+            "resource": "https://farmbeats.azure.net",
+            "resourceName": "farmbeats-jp1",
+        }
+    },
+    "rest-client.logLevel": "verbose",
+    "rest-client.previewOption": "exchange",
+    "rest-client.previewResponseInUntitledDocument": true
+}
+
+
+// "TokenServiceOptions": {
+//     "clientId": "b43a3882-1d70-4230-8b49-18e8ffa6d751",
+//     "applicationSecret": "yQ27Q~MQKaL1kqt3eCxrzXHQ_Y3IkXn.bnbxt",
+//     "httpClientName": "tokenService",
+//     "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+//     "resource": "https://farmbeats.azure.net"
+//   },
+//   "StellarServiceOptions": {
+//     "resource": "https://farmbeats.azure.net",
+//     "host": "farmbeats-jp1.farmbeats.azure.net",
+//     "grant_type": "client_credentials",
+//     "apiVersion": "2021-07-31-preview",
+//     "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+//     "httpClientName": "stellar"
+//   }
+
