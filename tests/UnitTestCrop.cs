@@ -72,12 +72,12 @@ public class UnitTestCrop
 
         // TODO: Works, refine what you want to test and verify before putting it into Blazor.
         // TODO: Maybe get Farms and Fields working, then abstract out.
-        var names = from o in resp
-                    select o.name;
+        var ids = from o in resp
+                    select o.id;
 
-        foreach (string name in names)
+        foreach (string id in ids)
         {
-            Console.WriteLine(name);
+            Console.WriteLine(id);
         }
     }
 }
