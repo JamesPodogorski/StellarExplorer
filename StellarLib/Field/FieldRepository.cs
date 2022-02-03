@@ -62,40 +62,21 @@ public class FieldRepository : Repository<Field>, IFieldRepository
     // TODO: Async correction in other methods....  they are not async.
     public async override Task<IEnumerable<Field>> GetAll()
     {
-        // var pathParam = new Dictionary<string, string>() {
-        //         {  "farmers", id },
-        //         {  "tillage-data", tillage.identity },
-        //     };
-        // var queryParam = new Dictionary<string, string>() {
-        //         {  "api-version", _apiVersion }
-        //     };
-
-        // string[] pathParam = new string[] { "farmers" };
-        // var queryParam = new Dictionary<string, string>() {
-        //         {  "api-version", options.apiVersion }
-        //     };
-
-        // var uriBuilder = new UriBuilder(string.Format(@"{0}://{1}", "https", options.host));
-        // uriBuilder.Path(pathParam);
-        // uriBuilder.Query(queryParam);
-
-        // var result = await SendApiCallResults(uriBuilder, HttpMethod.Get, null);
-        // if (!(result.code == HttpStatusCode.OK || result.code == HttpStatusCode.NotFound))
-        // {
-        //     Logger.LogError(string.Format("Error retrieving Farmers; {1}"), result.code);
-        // }
-        // return result.resp;
-
         // TODO: Apparently this returns all the stuff, i.e. xxx farms.  What we need to do is create the Farm object....
         var myList = getData("fields");
         var l = new List<Field>();
+
+        // As a test only.... to probe
+        string testJson = JsonHelper.Serialize<IList<object>>(myList);
+        File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
+
         foreach (object o in myList)
         {
             string jsonO = JsonHelper.Serialize<object>(o);
             var field = JsonHelper.Deserialize<Field>(jsonO);
             l.Add(field);
         }
-   
+
         string json = JsonHelper.Serialize<IList<Field>>(l);
         File.WriteAllText(string.Format("../../../{0}.json", "fields"), json);
         return await Task.FromResult<IEnumerable<Field>>(l);
@@ -112,7 +93,7 @@ public class FieldRepository : Repository<Field>, IFieldRepository
             var farm = JsonHelper.Deserialize<Field>(jsonO);
             l.Add(farm);
         }
-   
+
         string json = JsonHelper.Serialize<IList<Field>>(l);
         File.WriteAllText(string.Format("../../../{0}.json", "farms"), json);
         return await Task.FromResult<IEnumerable<Field>>(l);

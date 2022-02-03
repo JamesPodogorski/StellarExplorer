@@ -87,6 +87,11 @@ public class FarmerRepository : Repository<Farmer>, IFarmerRepository
         // TODO: Apparently this returns all the stuff, i.e. 13 farmers.  What we need to do is create the Farmer object....
         var myList = getData("farmers");
         var l = new List<Farmer>();
+
+        // As a test only.... to probe
+        string testJson = JsonHelper.Serialize<IList<object>>(myList);
+        File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
+
         foreach (object o in myList)
         {
             string jsonO = JsonHelper.Serialize<object>(o);
@@ -100,5 +105,4 @@ public class FarmerRepository : Repository<Farmer>, IFarmerRepository
         File.WriteAllText(string.Format("../../../{0}.json", "farmers"), json);
         return await Task.FromResult<IEnumerable<Farmer>>(l);
     }
-
 }

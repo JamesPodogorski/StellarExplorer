@@ -25,6 +25,11 @@ public class BoundaryRepository : Repository<Boundary>, IBoundaryRepository
         // TODO: Apparently this returns all the stuff, i.e. xxx farms.  What we need to do is create the Farm object....
         var myList = getData("boundaries");
         var l = new List<Boundary>();
+
+        // As a test only.... to probe
+        string testJson = JsonHelper.Serialize<IList<object>>(myList);
+        File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
+
         foreach (object o in myList)
         {
             // For Boundaries, the serialized json includes an Id but our deserialized boundary does not, fix the return values...
