@@ -1,0 +1,53 @@
+@page "/getallboundaries"
+
+<PageTitle>Get All Boundaries</PageTitle>
+
+@using StellarLib
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Logging;
+@inject IBoundaryRepository boundaryRepository;
+
+<h1>Get All Boundaries</h1>
+
+<p>This component will fetch all boundaries and display into a basic table</p>
+
+
+@if (false)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var boundary in boundaries)
+            {
+                boundary.numb = i++;
+                <tr>
+                    <td>@boundary.name</td>
+                    <td>@boundary.numb</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    IEnumerable<Boundary> boundaries = Array.Empty<Boundary>();
+    int i = 1;
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+
+        @* var tt = farmerRepository.GetAll();
+            tt.Wait();
+            farmers = tt.Result; *@
+        boundaries = await boundaryRepository.GetAll();
+    }
+}

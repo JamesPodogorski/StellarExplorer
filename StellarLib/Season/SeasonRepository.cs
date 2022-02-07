@@ -21,7 +21,7 @@ public class SeasonRepository : Repository<Season>, ISeasonRepository
 
     // TODO: Should this be defined in the interface or inherated.
     // TODO: Async correction in other methods....  they are not async.
-    public async override Task<IEnumerable<Season>> GetAll()
+    public async override Task<IEnumerable<Season>> GetAll(CancellationToken token = default)
     {
         // TODO: Apparently this returns all the stuff, i.e. xxx farms.  What we need to do is create the Farm object....
         var myList = getData("seasons");
@@ -29,7 +29,7 @@ public class SeasonRepository : Repository<Season>, ISeasonRepository
 
         // As a test only.... to probe
         string testJson = JsonHelper.Serialize<IList<object>>(myList);
-        File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
+        // File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
 
         foreach (object o in myList)
         {
@@ -39,7 +39,7 @@ public class SeasonRepository : Repository<Season>, ISeasonRepository
         }
 
         string json = JsonHelper.Serialize<IList<Season>>(l);
-        File.WriteAllText(string.Format("../../../{0}.json", "seasons"), json);
+        // File.WriteAllText(string.Format("../../../{0}.json", "seasons"), json);
         return await Task.FromResult<IEnumerable<Season>>(l);
     }
 }

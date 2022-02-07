@@ -130,4 +130,18 @@ public class UnitTest1
 
         //         logger.LogDebug("All done!");
     }
+
+    [Fact]
+    public void TestDefaultString()
+    {
+        string s = default;
+        if (string.Empty.Equals(s))
+        {
+            Console.WriteLine(string.Format("The default string is empty '{0}'", s));
+        }
+        if (s == null)
+        {
+            Console.WriteLine(string.Format("The default string is null"));
+        }
+    }
 }

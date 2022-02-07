@@ -20,7 +20,7 @@ public class CropRepository : Repository<Crop>, ICropRepository
 
     // TODO: Should this be defined in the interface or inherated.
     // TODO: Async correction in other methods....  they are not async.
-    public async override Task<IEnumerable<Crop>> GetAll()
+    public async override Task<IEnumerable<Crop>> GetAll(CancellationToken token = default)
     {
         // TODO: Apparently this returns all the stuff, i.e. xxx farms.  What we need to do is create the Farm object....
         var myList = getData("crops");
@@ -28,7 +28,7 @@ public class CropRepository : Repository<Crop>, ICropRepository
 
         // As a test only.... to probe
         string testJson = JsonHelper.Serialize<IList<object>>(myList);
-        File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
+        // File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
 
         foreach (object o in myList)
         {
@@ -38,7 +38,7 @@ public class CropRepository : Repository<Crop>, ICropRepository
         }
 
         string json = JsonHelper.Serialize<IList<Crop>>(l);
-        File.WriteAllText(string.Format("../../../{0}.json", "crops"), json);
+        // File.WriteAllText(string.Format("../../../{0}.json", "crops"), json);
         return await Task.FromResult<IEnumerable<Crop>>(l);
     }
 }

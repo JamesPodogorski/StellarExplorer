@@ -54,4 +54,7 @@ public class Boundary : FarmHierarchyBase, IFarmMember
     // public IList<Harvest> harvests;
     // public IList<Tillage> tillages;
     // public IList<Planting> plantings;
+
+    // TODO: remove numb, it is used for verification
+    public int numb { get; set; }
 }

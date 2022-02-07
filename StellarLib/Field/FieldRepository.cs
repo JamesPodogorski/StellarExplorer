@@ -43,7 +43,7 @@ public class FieldRepository : Repository<Field>, IFieldRepository
         uriBuilder.Path(pathParam);
         uriBuilder.Query(queryParam);
 
-        var result = await SendApiCallResults(uriBuilder, HttpMethod.Get, null);
+        var result = await SendApiCallResults(uriBuilder, HttpMethod.Get);
         if (!(result.code == HttpStatusCode.OK || result.code == HttpStatusCode.NotFound))
         {
             Logger.LogError(string.Format("Error retrieving Farmer {0}; {1}"), id, result.code);
@@ -60,7 +60,7 @@ public class FieldRepository : Repository<Field>, IFieldRepository
 
     // TODO: Should this be defined in the interface or inherated.
     // TODO: Async correction in other methods....  they are not async.
-    public async override Task<IEnumerable<Field>> GetAll()
+    public async override Task<IEnumerable<Field>> GetAll(CancellationToken token = default)
     {
         // TODO: Apparently this returns all the stuff, i.e. xxx farms.  What we need to do is create the Farm object....
         var myList = getData("fields");
@@ -68,7 +68,7 @@ public class FieldRepository : Repository<Field>, IFieldRepository
 
         // As a test only.... to probe
         string testJson = JsonHelper.Serialize<IList<object>>(myList);
-        File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
+        // File.WriteAllText(string.Format("../../../{0}.json", "testJson"), testJson);
 
         foreach (object o in myList)
         {
@@ -78,7 +78,7 @@ public class FieldRepository : Repository<Field>, IFieldRepository
         }
 
         string json = JsonHelper.Serialize<IList<Field>>(l);
-        File.WriteAllText(string.Format("../../../{0}.json", "fields"), json);
+        // File.WriteAllText(string.Format("../../../{0}.json", "fields"), json);
         return await Task.FromResult<IEnumerable<Field>>(l);
     }
 
@@ -95,7 +95,7 @@ public class FieldRepository : Repository<Field>, IFieldRepository
         }
 
         string json = JsonHelper.Serialize<IList<Field>>(l);
-        File.WriteAllText(string.Format("../../../{0}.json", "farms"), json);
+        // File.WriteAllText(string.Format("../../../{0}.json", "farms"), json);
         return await Task.FromResult<IEnumerable<Field>>(l);
     }
 }

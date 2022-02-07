@@ -2,7 +2,7 @@ using System;
 
 namespace StellarLib;
 
-public interface IFarmerRepository : IRepository<Farmer>
+public interface IFarmerRepository : IRepository<Field>
 {
-
+    public Task<IEnumerable<Field>> GetAllWithoutCall();
 }

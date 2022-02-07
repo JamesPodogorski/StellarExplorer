@@ -112,7 +112,10 @@ public class Repository<T> : IRepository<T> where T : FarmHierarchyBase
         req.Headers.Add("Authorization", string.Format("Bearer {0}", access_token));
         try
         {
-            var resp = await httpClient.SendAsync(req);
+            // var resp = await httpClient.SendAsync(req);
+            var tt = httpClient.SendAsync(req);
+            tt.Wait();
+            var resp = tt.Result;
             string responseBody = await resp.Content.ReadAsStringAsync();
             // Console.WriteLine(responseBody);
             code = resp.StatusCode;
@@ -132,19 +135,21 @@ public class Repository<T> : IRepository<T> where T : FarmHierarchyBase
         throw new NotImplementedException();
     }
 
-    public virtual async Task<IEnumerable<T>> GetAll()
+    public virtual async Task<IEnumerable<T>> GetAll(CancellationToken token = default)
     {
         throw new NotImplementedException();
     }
 
     protected virtual HttpClient CreateHttpClient()
     {
-        return httpClientFactory.CreateClient(httpClientName);
+        // return httpClientFactory.CreateClient(httpClientName);
+        return new HttpClient();
     }
 
       protected async Task<Result> SendApiCallResults(UriBuilder builder,
                                                   HttpMethod method,
-                                                  string? jsonBody)
+                                                  string? jsonBody = default,
+                                                  CancellationToken token = default)
     {
         Result res;
         HttpStatusCode code = default(HttpStatusCode);
@@ -172,8 +177,15 @@ public class Repository<T> : IRepository<T> where T : FarmHierarchyBase
         req.Headers.Add("Authorization", string.Format("Bearer {0}", access_token));
         try
         {
-            var resp = await httpClient.SendAsync(req);
-            string responseBody = await resp.Content.ReadAsStringAsync();
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(5000);
+            var ct = cts.Token;
+            ct = CancellationToken.None;
+            var tt = httpClient.SendAsync(req, ct);
+            tt.Wait();
+            var resp = tt.Result;
+            // var resp = await httpClient.SendAsync(req, ct);
+            string responseBody = await resp.Content.ReadAsStringAsync(ct);
             // Console.WriteLine(responseBody);
             code = resp.StatusCode;
             res = new Result() { code = code, resp = responseBody };
@@ -224,13 +236,13 @@ public class Repository<T> : IRepository<T> where T : FarmHierarchyBase
         uriBuilder.Path(pathParam);
         uriBuilder.Query(queryParam);
 
-        return await SendApiCallResults(uriBuilder, HttpMethod.Get, null);
+        return await SendApiCallResults(uriBuilder, HttpMethod.Get);
     }
 
     private async Task<Result> followNextLink(string nextLink)
     {
         UriBuilder builder = new UriBuilder(nextLink);
-        return await SendApiCallResults(builder, HttpMethod.Get, null);
+        return await SendApiCallResults(builder, HttpMethod.Get);
     }
 
     private OperationsResult addData(string resp, IList<object> dataList)

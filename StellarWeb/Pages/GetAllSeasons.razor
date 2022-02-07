@@ -1,0 +1,50 @@
+@page "/getallseasons"
+
+<PageTitle>Get All Seasons</PageTitle>
+
+@using StellarLib
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Logging;
+@inject ISeasonRepository seasonRepository;
+
+<h1>Get All Seasons</h1>
+
+<p>This component will fetch all seasons and display into a basic table</p>
+
+
+@if (false)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var season in seasons)
+            {
+                <tr>
+                    <td>@season.name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    IEnumerable<Season> seasons = Array.Empty<Season>();
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+
+        @* var tt = farmerRepository.GetAll();
+        tt.Wait();
+        farmers = tt.Result; *@
+        seasons = await seasonRepository.GetAll();
+    }
+}

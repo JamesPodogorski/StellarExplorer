@@ -1,0 +1,50 @@
+@page "/getallfarms"
+
+<PageTitle>Get All Farms</PageTitle>
+
+@using StellarLib
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Logging;
+@inject IFarmRepository farmRepository;
+
+<h1>Get All Farms</h1>
+
+<p>This component will fetch all farms and display into a basic table</p>
+
+
+@if (false)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var farm in farms)
+            {
+                <tr>
+                    <td>@farm.name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    IEnumerable<Farm> farms = Array.Empty<Farm>();
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+
+        @* var tt = farmerRepository.GetAll();
+        tt.Wait();
+        farmers = tt.Result; *@
+        farms = await farmRepository.GetAll();
+    }
+}

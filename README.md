@@ -18,4 +18,29 @@
   - [x] Verify build
   - [x] Mini push
   - [x] Test GetAll()
-- [ ] Push code changes for GetAll() Cleanup...
+- [x] Push code changes for GetAll() Cleanup...
+- [ ] Display on Web App as a table
+  - [ ] Remove File.WriteTextAll in repositories
+  - [ ] Farmers
+    - [x] name
+    - [ ] Remaining
+  - [ ] Farms
+    - [x] names
+    - [ ] Remaining
+  - [ ] Fields
+    - [x] names
+    - [ ] Remaining
+  - [ ] Boundaries
+    - [x] names
+    - [ ] Remaining
+  - [ ] Seasons
+    - [x] names
+    - [ ] Remaining
+  - [x] Crops
+    - [x] names
+    - [ ] Remaining
+- [ ] Fix logging in Blazor
+- [ ] Fix logging in Repository
+- [ ] How are Errors handled, i.e. Error.cshtml.cs?
+- [ ] Sort out and remove Ok service
+- [ ] Repository.getData(string operationType) doesn't have an await, i.e. task.wait().  Consider changing... Task.wait() was used for testing

@@ -1,0 +1,50 @@
+@page "/getallfields"
+
+<PageTitle>Get All Fields</PageTitle>
+
+@using StellarLib
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Logging;
+@inject IFieldRepository fieldRepository;
+
+<h1>Get All Fields</h1>
+
+<p>This component will fetch all fields and display into a basic table</p>
+
+
+@if (false)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var field in fields)
+            {
+                <tr>
+                    <td>@field.name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    IEnumerable<Field> fields = Array.Empty<Field>();
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+
+        @* var tt = farmerRepository.GetAll();
+        tt.Wait();
+        farmers = tt.Result; *@
+        fields = await fieldRepository.GetAll();
+    }
+}

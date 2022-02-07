@@ -10,9 +10,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using System.IO;
 
-namespace tests;
+namespace StellarWeb.Shared;
 
-public class TestHelper
+public class WebHelper
 {
     public readonly static string StellarConfigSection = "StellarServiceOptions";
     public readonly static string TokenOptionSectionName = "TokenServiceOptions";
@@ -38,13 +38,11 @@ public class TestHelper
         return section.Get<T>();
     }
 
-    // TODO: Delete this if not needed
-
-    // IAsyncPolicy<HttpResponseMessage> GetPolicy()
-    // {
-    //     return HttpPolicyExtensions
-    //             .HandleTransientHttpError()
-    //             .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
-    //             .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-    // }
+    IAsyncPolicy<HttpResponseMessage> GetPolicy()
+    {
+        return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+    }
 }

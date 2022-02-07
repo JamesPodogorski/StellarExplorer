@@ -31,7 +31,8 @@ public class TokenService : ITokenService
         logger = loggerFactory.CreateLogger<TokenService>();
         this.options = options.Value;
         httpClient = httpClientFactory.CreateClient(this.options.httpClientName);
-        url = string.Format(baseFormat, "https", this.options.tenantId); 
+        // httpClient = new HttpClient();
+        url = string.Format(baseFormat, "https", this.options.tenantId);
     }
 
 
@@ -50,7 +51,7 @@ public class TokenService : ITokenService
         }
         catch (Exception ex1)
         {
-        logger.LogError(ex1.Message);
+            logger.LogError(ex1.Message);
         }
         finally
         {
@@ -92,7 +93,11 @@ public class TokenService : ITokenService
 
         try
         {
-            HttpResponseMessage resp = await httpClient.PostAsync(url, form);
+            // HttpResponseMessage resp = await httpClient.PostAsync(url, form);
+            var tt =  httpClient.PostAsync(url, form);
+            tt.Wait();
+            var resp = tt.Result;
+
             resp.EnsureSuccessStatusCode();
             string responseBody = await resp.Content.ReadAsStringAsync();
             var doc = JsonDocument.Parse(responseBody, default(JsonDocumentOptions));
@@ -101,6 +106,10 @@ public class TokenService : ITokenService
         catch (Exception ex1)
         {
             logger.LogError(ex1, "Cannot retrieve access token");
+        }
+        finally
+        {
+            logger.LogInformation("finished the token call");
         }
         return accessCode;
     }

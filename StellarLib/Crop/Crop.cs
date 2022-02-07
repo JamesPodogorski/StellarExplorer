@@ -13,6 +13,7 @@ public class Crop : FarmHierarchyBase
     public string status { get; set; }
     public DateTime createdDateTime { get; set; }
     public DateTime modifiedDateTime { get; set; }
+    public string name { get; set; }
     public string description { get; set; }
     public IDictionary<string, string> properties { get; set; }
 }
