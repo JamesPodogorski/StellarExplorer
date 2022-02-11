@@ -14,7 +14,7 @@ using playground.Data;
 namespace playground.Pages;
 
 
-public partial class TreeviewBase<T>: ComponentBase where T : FarmBase
+public partial class TreeviewBase<T>: ComponentBase where T : FarmViewBase
     {
 
         [Parameter]

@@ -12,7 +12,7 @@
 
 
 @code{
-    protected class MailItem : FarmBase
+    protected class MailItem : FarmViewBase
     {
         @* public int Id { get; set; } *@
         @* public string ParentId { get; set; }
@@ -22,13 +22,13 @@
 
     }
 
-    List<FarmBase> MyFolder = new List<FarmBase>();
+    List<FarmViewBase> MyFolder = new List<FarmViewBase>();
 
     protected override Task OnInitializedAsync()
     {
 
 
-        MyFolder.Add(new MailItem { Id = 1, FolderName = "Inbox", HasSubFolder = true, Expanded = true, ParentId = "" });
+        MyFolder.Add(new MailItem { Id = 1, FolderName = "Farmers", HasSubFolder = true, Expanded = true, ParentId = "" });
         MyFolder.Add(new MailItem { Id = 2, FolderName = "Category", ParentId = "1", HasSubFolder = true, Expanded = true });
         MyFolder.Add(new MailItem { Id = 3, FolderName = "Primary", ParentId = "2", HasSubFolder = false, Expanded = true });
         MyFolder.Add(new MailItem { Id = 4, FolderName = "Social", ParentId = "6", HasSubFolder = false, Expanded = true });
