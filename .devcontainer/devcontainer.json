@@ -34,7 +34,10 @@
 		"ms-dotnettools.vscode-dotnet-runtime",
 		"ms-toolsai.jupyter",
 		"ms-dotnettools.dotnet-interactive-vscode",
-		"aaron-bond.better-comments"
+		"aaron-bond.better-comments",
+		"adrianwilczynski.blazor-snippet-pack",
+		"kevin-chatham.aspnetcorerazor-html-css-class-completion",
+		"zaaack.markdown-editor"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

@@ -1,8 +1,12 @@
+<link href="css/one.css" rel="stylesheet"></link>
+
 # StellarExplorer
 
 ## TODO
 
-- [x] Clean up return from GetAll() Boundary
+ The TODOs <red> are P0 </red>
+
+- [x] Clean <u>up</u> return from GetAll() Boundary
 - [x] Clean up / review code for GetAll() Fields
 - [x] Clean up / review code for GetAll() Farm
 - [x] Clean up / review code for GetAll() Farmer
@@ -23,24 +27,25 @@
   - [ ] Remove File.WriteTextAll in repositories
   - [ ] Farmers
     - [x] name
-    - [ ] Remaining
+    - [ ] ~~Remaining~~
   - [ ] Farms
     - [x] names
-    - [ ] Remaining
+    - [ ]~~Remaining~~
   - [ ] Fields
     - [x] names
-    - [ ] Remaining
+    - [ ] ~~Remaining~~
   - [ ] Boundaries
     - [x] names
-    - [ ] Remaining
+    - [ ] ~~Remaining~~
   - [ ] Seasons
     - [x] names
-    - [ ] Remaining
+    - [ ] ~~Remaining~~
   - [x] Crops
     - [x] names
-    - [ ] Remaining
+    - [ ] ~~Remaining~~
 - [ ] Fix logging in Blazor
 - [ ] Fix logging in Repository
 - [ ] How are Errors handled, i.e. Error.cshtml.cs?
 - [ ] Sort out and remove Ok service
 - [ ] Repository.getData(string operationType) doesn't have an await, i.e. task.wait().  Consider changing... Task.wait() was used for testing
+- [ ] <red> Add Boot Strap index </red>

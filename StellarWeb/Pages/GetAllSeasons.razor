@@ -5,6 +5,7 @@
 @using StellarLib
 @using Microsoft.Extensions.DependencyInjection
 @using Microsoft.Extensions.Logging;
+@using StellarWeb.Components;
 @inject ISeasonRepository seasonRepository;
 
 <h1>Get All Seasons</h1>
@@ -12,7 +13,7 @@
 <p>This component will fetch all seasons and display into a basic table</p>
 
 
-@if (false)
+@* @if (false)
 {
     <p><em>Loading...</em></p>
 }
@@ -32,7 +33,11 @@ else
                 </tr>
             }
         </tbody>
-    </table>
+    </table> *@
+
+    <JamesNav></JamesNav>
+
+
 }
 
 @code {

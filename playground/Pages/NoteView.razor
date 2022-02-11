@@ -1,0 +1,45 @@
+@using playground.Data;
+
+@* @if (note != null)
+    {
+    <li>
+    <span class="@note.Style">@note.Message</span>
+    <button class="red" type="submit" @onclick="@OnUpdateNote">Update</button>
+    <p class="red">
+    <red>hello</red>
+    </p>
+    </li>
+    } *@
+
+<button type="submit" @onclick="@OnUpdateNote">Update</button>
+
+<ul id="myUL">
+    <li><span class="@note.Style" @onclick="@OnUpdateNote">Beverages</span>
+        <ul class="nested">
+            <li>Water</li>
+            <li>Coffee</li>
+            <li><span class="caret">Tea</span>
+                <ul class="nested">
+                    <li>Black Tea</li>
+                    <li>White Tea</li>
+                    <li><span class="caret">Green Tea</span>
+                        <ul class="nested">
+                            <li>Sencha</li>
+                            <li>Gyokuro</li>
+                            <li>Matcha</li>
+                            <li>Pi Lo Chun</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+@code {
+    [Parameter]
+    public Note note { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnUpdateNote { get; set; }
+
+}
