@@ -9,7 +9,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/StellarWeb/StellarWeb.csproj",
+                "${workspaceFolder}/StellarExplorer.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
